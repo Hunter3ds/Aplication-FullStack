@@ -9,7 +9,7 @@ fomulario.addEventListener('submit', async(event)=>{
         endereco: document.querySelector('#endereco').value
     }
     try{
-        const response = await fetch('localhost:3000/usuarios',{
+        const response = await fetch('http://localhost:3000/usuarios',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,5 +21,23 @@ fomulario.addEventListener('submit', async(event)=>{
     }
     catch(error){
         console.error(error)
+    }
+})
+
+const botaoPesquisar = document.querySelector('#botaoBuscar');
+botaoPesquisar.addEventListener('click', async()=>{
+    const id = document.querySelector('#idBuscar').value;
+    
+    try{
+        const response = await fetch(`http://localhost:3000/usuarios/${id}`);
+        const usuarios = await response.json();
+
+        if(usuarios.id){
+            alert(`Usuario encontrado: ${usuarios.nome}, ${usuarios.email}, ${usuarios.endereco}`)
+        }else{ 
+            alert('Usuario não encontrado')
+        }
+    }catch(error){
+        console.log(`Erro ao buscar o usuário ${error}`)
     }
 })

@@ -3,6 +3,9 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
+app.use(cors());
+app.use(express.json());
+
 let usuarios = [];
 app.get('/usuarios', (req, res)=>{
     res.json(usuarios);
@@ -12,6 +15,17 @@ app.post('/usuarios', (req, res)=>{
     console.log('Usuário recebido')
     usuarios.push(novoUsuario);
     res.status(201).json({mensagem: 'Usuário criado com sucesso'})
+})
+app.put('/usuario/:id', (req, res)=>{
+    const id = req.params;
+    const idUsuario = element => element == id
+    const usuarioIndex = usuario.findIndex(idUsuario);
+    
+    if(usuarioIndex !== -1){
+        res.send(`Usuário encontrado no índice ${usuarioIndex}`)
+    }else{
+        res.status(404).send('Usuário não encontrado')
+    }
 })
 app.listen(port, ()=>{
     console.log(`Sevidor rodando em http://localhost`)
