@@ -16,10 +16,10 @@ app.post('/usuarios', (req, res)=>{
     usuarios.push(novoUsuario);
     res.status(201).json({mensagem: 'Usuário criado com sucesso'})
 })
-app.put('/usuario/:id', (req, res)=>{
+app.put('/usuarios/:id', (req, res)=>{
     const id = req.params;
     const idUsuario = element => element == id
-    const usuarioIndex = usuario.findIndex(idUsuario);
+    const usuarioIndex = usuarios.findIndex(idUsuario);
     
     if(usuarioIndex !== -1){
         res.send(`Usuário encontrado no índice ${usuarioIndex}`)

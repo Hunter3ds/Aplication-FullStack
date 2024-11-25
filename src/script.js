@@ -27,7 +27,7 @@ fomulario.addEventListener('submit', async(event)=>{
 const botaoPesquisar = document.querySelector('#botaoBuscar');
 botaoPesquisar.addEventListener('click', async()=>{
     const id = document.querySelector('#idBuscar').value;
-    
+    console.log(id)
     try{
         const response = await fetch(`http://localhost:3000/usuarios/${id}`);
         const usuarios = await response.json();
