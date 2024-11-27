@@ -1,32 +1,45 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
+// Configuração para processar JSON no body das requisições
 app.use(cors());
 app.use(express.json());
 
 let usuarios = [];
-app.get('/usuarios', (req, res)=>{
-    res.json(usuarios);
-})
-app.post('/usuarios', (req, res)=>{
-    const novoUsuario = req.body;
-    console.log('Usuário recebido')
-    usuarios.push(novoUsuario);
-    res.status(201).json({mensagem: 'Usuário criado com sucesso'})
-})
-app.put('/usuarios/:id', (req, res)=>{
-    const id = req.params;
-    const idUsuario = element => element == id
-    const usuarioIndex = usuarios.findIndex(idUsuario);
-    
-    if(usuarioIndex !== -1){
-        res.send(`Usuário encontrado no índice ${usuarioIndex}`)
-    }else{
-        res.status(404).send('Usuário não encontrado')
-    }
-})
-app.listen(port, ()=>{
-    console.log(`Sevidor rodando em http://localhost`)
-})
+
+// Rota para listar todos os usuários (READ)
+app.get('/usuarios', (req, res) => {
+  res.json(usuarios);
+});
+
+// Rota para criar um novo usuário (CREATE)
+app.post('/usuarios', (req, res) => {
+  const novoUsuario = req.body;
+  console.log("Usuário recebido", novoUsuario);
+  
+  // Adiciona um ID automático ao usuário
+  novoUsuario.id = usuarios.length + 1;
+  
+  usuarios.push(novoUsuario);
+  res.status(201).json({ mensagem: 'Usuário criado com sucesso' });
+});
+
+// fazer daqui
+app.get('/usuarios/:id', (req, res) => {
+  const { id } = req.params;
+  const usuario = usuarios.find(u => u.id == id);
+
+  if (usuario) {
+    res.status(200).json({ mensagem: 'Usuário encontrado', usuario });
+  } else {
+    res.status(404).json({ mensagem: 'Usuário não encontrado' });
+  }
+});
+
+
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
