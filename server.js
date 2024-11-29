@@ -37,8 +37,17 @@ app.get('/usuarios/:id', (req, res) => {
     res.status(404).json({ mensagem: 'Usuário não encontrado' });
   }
 });
+app.put('usuarios/:id', (req, res)=> {
+  const { id } = req.params;
+  const usuarioIndex = usuarios.findIndex(u => u.id == id);
 
-
+  if(usuarioIndex !== -1){
+    usuarios[usuarioIndex] = {...usuarios[usuarioIndex], ...req.body}
+    res.status(200).json({mensagem:'Usuário atualizado com sucesso', usuario: usuarios[usuarioIndex]});
+  }else{
+    res.status(404).json({mensagem:'Usuário não encontrado'})
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);

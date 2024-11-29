@@ -44,3 +44,30 @@ botaoBuscar.addEventListener('click', async () => {
         console.log('Erro ao buscar usuário:', erro);
     }
 });
+
+const botaoAtualizar = document.querySelector('#botaoAtualizar');
+botaoAtualizar.addEventListener('click', async () =>{
+    const usuarioId = {
+        nome: document.querySelector('#nomeAtualizar').value,
+        email: document.querySelector('#emailAtualizar').value,
+        endereco: document.querySelector('#enderecoAtualizar').value
+    }
+    const caixaId = document.querySelector('#idAtualizar').value;
+    try{
+        const response = await fetch(`http://localhost:3000/usuarios/${caixaId}`, {
+            method: 'PUT',
+            headers: {'Content-Type': "application/json"},
+            body: JSON.stringify(usuarioId)
+        });
+
+        const resultado = await response.json();
+        console.log(resultado)
+        if(response.ok){
+            alert(`Usuário atualizado com sucesso: ${resultado.nome}`)
+        }else{
+            alert('Usuário não atualizado')
+        }
+    }catch(error){
+        console.log(`Acesso não autorizado a API`)
+    }
+})
